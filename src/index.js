@@ -57,7 +57,7 @@ function createPackageJSONContent() {
             typings: `${componentName}.tsx`,
         },
         null,
-        '\t'
+        2
     );
 }
 
