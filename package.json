@@ -1,11 +1,17 @@
 {
   "name": "tvrs",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A CLI for tv dev",
+  "main": "bin/index.js",
+  "bin": {
+    "tvrs": "./bin/index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "tvrs"
+  ],
+  "author": "Igor Kucherenko",
+  "license": "MIT"
 }
