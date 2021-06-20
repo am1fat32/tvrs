@@ -13,8 +13,9 @@ createComponent(rootPath);
 function createComponent() {
     if (fs.existsSync(rootPath)) {
         console.warn(
-            chalk.red(boxen(`Folder ${chalk.yellow(componentName)} is already exists!`))
+            chalk.red(boxen(`Folder ${chalk.yellow(componentName)} is already exists in this path!`))
         );
+
         return;
     }
 
@@ -77,9 +78,11 @@ import * as s from './${componentName}.pcss';
 export interface ${propsStr} {}
 
 export function ${pascalComponentName}(props: ${propsStr}): JSX.Element {
+\tconst {} = props;
+
 \treturn (
 \t\t<div>${componentName}</div>
 \t);
 }
-`.trim();
+`.trimStart();
 }
