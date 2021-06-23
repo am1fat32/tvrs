@@ -59,7 +59,7 @@ function createPackageJSONContent() {
         },
         null,
         2
-    );
+    ).concat('\n');
 }
 
 function createStylesContent() {
