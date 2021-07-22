@@ -5,12 +5,9 @@ const boxen = require('boxen');
 
 const { kebabToPascal } = require('./utils');
 
-const componentName = process.argv[2];
-const rootPath = path.resolve(process.cwd(), componentName);
+function createComponent(componentName) {
+  const rootPath = path.resolve(process.cwd(), componentName);
 
-createComponent(rootPath);
-
-function createComponent() {
   if (fs.existsSync(rootPath)) {
     console.warn(
       chalk.red(boxen(`Folder ${chalk.yellow(componentName)} is already exists in this path!`)),
@@ -28,29 +25,29 @@ function createComponent() {
   console.warn(
     chalk.green(boxen(`Component ${chalk.yellow(componentName)} was successfully created!`)),
   );
+
+  function createRootFolder() {
+    fs.mkdirSync(rootPath);
+  }
+
+  function createPackageJSON() {
+    createFile('package.json', createPackageJSONContent(componentName));
+  }
+
+  function createTSX() {
+    createFile(`${componentName}.tsx`, createTSXContent(componentName));
+  }
+
+  function createStyles() {
+    createFile(`${componentName}.pcss`, createStylesContent());
+  }
+
+  function createFile(fileName, content) {
+    fs.writeFileSync(path.resolve(rootPath, fileName), content);
+  }
 }
 
-function createRootFolder() {
-  fs.mkdirSync(rootPath);
-}
-
-function createPackageJSON() {
-  createFile('package.json', createPackageJSONContent());
-}
-
-function createStyles() {
-  createFile(`${componentName}.pcss`, createStylesContent());
-}
-
-function createTSX() {
-  createFile(`${componentName}.tsx`, createTSXContent());
-}
-
-function createFile(fileName, content) {
-  fs.writeFileSync(path.resolve(rootPath, fileName), content);
-}
-
-function createPackageJSONContent() {
+function createPackageJSONContent(componentName) {
   return JSON.stringify(
     {
       private: true,
@@ -66,7 +63,7 @@ function createStylesContent() {
   return '';
 }
 
-function createTSXContent() {
+function createTSXContent(componentName) {
   const pascalComponentName = kebabToPascal(componentName);
   const propsStr = `${pascalComponentName}Props`;
 
@@ -86,3 +83,7 @@ export function ${pascalComponentName}(props: ${propsStr}): JSX.Element {
 }
 `.trimStart();
 }
+
+module.exports = {
+  createComponent,
+};
