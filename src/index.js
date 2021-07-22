@@ -1,89 +1,51 @@
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
-const boxen = require('boxen');
+const { createFile } = require('./utils/createFile');
+const { logSuccess } = require('./utils/logSuccess');
+const { buildFunctionalComponentTemplate } = require('./templateBuilders/buildFunctionalComponentTemplate');
+const { buildPackageJSONTemplate } = require('./templateBuilders/buildPackageJSONTemplate');
+const { buildStylesTemplate } = require('./templateBuilders/buildStylesTemplate');
 
-const { kebabToPascal } = require('./utils');
+const mainEntityMap = {
+  fc: {
+    ext: '.tsx',
+    canHaveStyles: true,
+    canHavePackageJSON: true,
+    fn: buildFunctionalComponentTemplate,
+  },
+};
 
-function createComponent(componentName) {
-  const rootPath = path.resolve(process.cwd(), componentName);
+function createEntity(componentName, type, isSingle) {
+  const destinationPath = process.cwd();
 
-  if (fs.existsSync(rootPath)) {
-    console.warn(
-      chalk.red(boxen(`Folder ${chalk.yellow(componentName)} is already exists in this path!`)),
-    );
+  const {
+    ext: mainExtension,
+    fn: buildMainTemplate,
+    canHaveStyles,
+    canHavePackageJSON,
+  } = mainEntityMap[type];
 
-    return;
+  if (!isSingle) {
+    fs.mkdirSync(path.resolve(destinationPath, componentName));
   }
 
-  createRootFolder();
+  const mainTemplate = buildMainTemplate(componentName);
+  const filePath = isSingle ? destinationPath : path.resolve(destinationPath, componentName);
+  createFile(filePath, `${componentName}${mainExtension}`, mainTemplate);
 
-  createPackageJSON();
-  createStyles();
-  createTSX();
-
-  console.warn(
-    chalk.green(boxen(`Component ${chalk.yellow(componentName)} was successfully created!`)),
-  );
-
-  function createRootFolder() {
-    fs.mkdirSync(rootPath);
+  if (!isSingle && canHaveStyles) {
+    const stylesTemplate = buildStylesTemplate();
+    createFile(filePath, `${componentName}.pcss`, stylesTemplate);
   }
 
-  function createPackageJSON() {
-    createFile('package.json', createPackageJSONContent(componentName));
+  if (!isSingle && canHavePackageJSON) {
+    const template = buildPackageJSONTemplate(componentName);
+    createFile(filePath, `${componentName}.json`, template);
   }
 
-  function createTSX() {
-    createFile(`${componentName}.tsx`, createTSXContent(componentName));
-  }
-
-  function createStyles() {
-    createFile(`${componentName}.pcss`, createStylesContent());
-  }
-
-  function createFile(fileName, content) {
-    fs.writeFileSync(path.resolve(rootPath, fileName), content);
-  }
-}
-
-function createPackageJSONContent(componentName) {
-  return JSON.stringify(
-    {
-      private: true,
-      main: componentName,
-      typings: `${componentName}.tsx`,
-    },
-    null,
-    2,
-  ).concat('\n');
-}
-
-function createStylesContent() {
-  return '';
-}
-
-function createTSXContent(componentName) {
-  const pascalComponentName = kebabToPascal(componentName);
-  const propsStr = `${pascalComponentName}Props`;
-
-  return `
-import React from 'react';
-
-import * as s from './${componentName}.pcss';
-
-export interface ${propsStr} {}
-
-export function ${pascalComponentName}(props: ${propsStr}): JSX.Element {
-\tconst {} = props;
-
-\treturn (
-\t\t<div>${componentName}</div>
-\t);
-}
-`.trimStart();
+  logSuccess(componentName, type);
 }
 
 module.exports = {
-  createComponent,
+  createEntity,
 };
