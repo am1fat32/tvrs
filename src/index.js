@@ -25,8 +25,16 @@ const mainEntityMap = {
 
 function createEntity(componentName, type, flat, skipPackage) {
   const destinationPath = process.cwd();
+  const mainEntity = mainEntityMap[type];
 
-  const { ext: mainExtension, fn: buildMainTemplate, hasStyles } = mainEntityMap[type];
+  if (!mainEntity) {
+    const possibleTypes = Object.keys(mainEntityMap).map((it) => chalk.green(it)).join(' | ');
+    const error = `Possible types (${possibleTypes}) does not include ${chalk.yellow(type)}!`;
+    logToOutput(boxen(error, { borderColor: 'red' }));
+    return;
+  }
+
+  const { ext: mainExtension, fn: buildMainTemplate, hasStyles } = mainEntity;
 
   if (!flat) {
     try {
