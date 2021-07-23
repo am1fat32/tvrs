@@ -1,18 +1,24 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { version, description } = require('../package.json');
+const { version } = require('../package.json');
 const { createEntity } = require('../src/index');
 
 program
   .version(version, '-v, --version')
-  .description(description)
+  .description('Creates an entity in cwd')
   .argument('<name>', 'entity name in kebab case')
   .argument('[type]', 'entity type: fc | cc', 'fc')
-  .option('-s, --single', 'creates entity without folder, styles and package.json')
+  .option('-f, --flat', 'create entity without folder')
+  .option('-sp, --skip-package', 'skip package.json')
   .action((entityName, type) => {
-    const { single } = program.opts();
+    const { flat, skipPackage } = program.opts();
 
-    createEntity(entityName, type, single);
+    createEntity(
+      entityName,
+      type,
+      flat,
+      skipPackage,
+    );
   })
   .parse();
