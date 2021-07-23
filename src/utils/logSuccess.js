@@ -3,6 +3,7 @@ const boxen = require('boxen');
 
 const fullNameMap = {
   fc: 'Functional component',
+  cc: 'Class component',
 };
 
 const logSuccess = (componentName, type) => {

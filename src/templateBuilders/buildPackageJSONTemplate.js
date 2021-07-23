@@ -1,8 +1,8 @@
-const buildPackageJSONTemplate = (componentName) => JSON.stringify(
+const buildPackageJSONTemplate = (componentName, extension) => JSON.stringify(
   {
     private: true,
     main: componentName,
-    typings: `${componentName}.tsx`,
+    typings: `${componentName}${extension}`,
   },
   null,
   2,
