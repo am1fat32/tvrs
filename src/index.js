@@ -1,7 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const { createFile } = require('./utils/createFile');
+const chalk = require('chalk');
+const boxen = require('boxen');
+const { logToOutput } = require('./utils/logToOutput');
 const { logSuccess } = require('./utils/logSuccess');
+const { createFile } = require('./utils/createFile');
 const { buildPackageJSONTemplate } = require('./templateBuilders/buildPackageJSONTemplate');
 const { buildStylesTemplate } = require('./templateBuilders/buildStylesTemplate');
 const { buildFunctionalComponentTemplate } = require('./templateBuilders/buildFunctionalComponentTemplate');
@@ -26,7 +29,13 @@ function createEntity(componentName, type, flat, skipPackage) {
   const { ext: mainExtension, fn: buildMainTemplate, hasStyles } = mainEntityMap[type];
 
   if (!flat) {
-    fs.mkdirSync(path.resolve(destinationPath, componentName));
+    try {
+      fs.mkdirSync(path.resolve(destinationPath, componentName));
+    } catch {
+      const error = `${chalk.yellow(componentName)} folder already exists in this path!`;
+      logToOutput(boxen(error, { borderColor: 'red' }));
+      return;
+    }
   }
 
   const mainTemplate = buildMainTemplate(componentName);
