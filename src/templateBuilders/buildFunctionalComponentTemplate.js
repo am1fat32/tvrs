@@ -23,4 +23,4 @@ export function ${pascalComponentName}(props: ${propsStr}): JSX.Element {
 
 module.exports = {
   buildFunctionalComponentTemplate,
-}
+};
