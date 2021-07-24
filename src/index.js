@@ -36,18 +36,20 @@ function createEntity(componentName, type, flat, skipPackage) {
 
   const { ext: mainExtension, fn: buildMainTemplate, hasStyles } = mainEntity;
 
+  const filePath = flat ? destinationPath : path.resolve(destinationPath, componentName);
+
   if (!flat) {
-    try {
-      fs.mkdirSync(path.resolve(destinationPath, componentName));
-    } catch {
-      const error = `${chalk.yellow(componentName)} folder already exists in this path!`;
-      logToOutput(boxen(error, { borderColor: 'red' }));
+    if (fs.existsSync(filePath)) {
+      const info = `${chalk.yellow(componentName)} folder already exists in this path!`;
+      logToOutput(boxen(info, { borderColor: 'red' }));
+
       return;
     }
+
+    fs.mkdirSync(path.resolve(destinationPath, componentName));
   }
 
   const mainTemplate = buildMainTemplate(componentName);
-  const filePath = flat ? destinationPath : path.resolve(destinationPath, componentName);
   createFile(filePath, `${componentName}${mainExtension}`, mainTemplate);
 
   if (hasStyles) {
