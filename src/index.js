@@ -3,7 +3,6 @@ const path = require('path');
 const chalk = require('chalk');
 const boxen = require('boxen');
 const { logToOutput } = require('./utils/logToOutput');
-const { logSuccess } = require('./utils/logSuccess');
 const { createFile } = require('./utils/createFile');
 const { buildPackageJSONTemplate } = require('./templateBuilders/buildPackageJSONTemplate');
 const { buildStylesTemplate } = require('./templateBuilders/buildStylesTemplate');
@@ -12,11 +11,13 @@ const { buildClassComponentTemplate } = require('./templateBuilders/buildClassCo
 
 const mainEntityMap = {
   fc: {
+    fullName: 'Functional component',
     ext: '.tsx',
     hasStyles: true,
     fn: buildFunctionalComponentTemplate,
   },
   cc: {
+    fullName: 'Class component',
     ext: '.tsx',
     hasStyles: true,
     fn: buildClassComponentTemplate,
@@ -29,19 +30,22 @@ function createEntity(componentName, type, flat, skipPackage) {
 
   if (!mainEntity) {
     const possibleTypes = Object.keys(mainEntityMap).map((it) => chalk.green(it)).join(' | ');
-    const error = `Possible types (${possibleTypes}) does not include ${chalk.yellow(type)}!`;
-    logToOutput(boxen(error, { borderColor: 'red' }));
+    const errorInfo = `Possible types (${possibleTypes}) does not include ${chalk.yellow(type)}!`;
+    logToOutput(boxen(errorInfo, { borderColor: 'red' }));
+
     return;
   }
 
-  const { ext: mainExtension, fn: buildMainTemplate, hasStyles } = mainEntity;
+  const {
+    fullName, ext: mainExtension, fn: buildMainTemplate, hasStyles,
+  } = mainEntity;
 
   const filePath = flat ? destinationPath : path.resolve(destinationPath, componentName);
 
   if (!flat) {
     if (fs.existsSync(filePath)) {
-      const info = `${chalk.yellow(componentName)} folder already exists in this path!`;
-      logToOutput(boxen(info, { borderColor: 'red' }));
+      const errorInfo = `${chalk.yellow(componentName)} folder already exists in this path!`;
+      logToOutput(boxen(errorInfo, { borderColor: 'red' }));
 
       return;
     }
@@ -62,7 +66,8 @@ function createEntity(componentName, type, flat, skipPackage) {
     createFile(filePath, 'package.json', template);
   }
 
-  logSuccess(componentName, type);
+  const successInfo = `${fullName} ${chalk.yellow(componentName)} is successfully created!`;
+  logToOutput(boxen(successInfo, { borderColor: 'green' }));
 }
 
 module.exports = {

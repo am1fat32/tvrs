@@ -7,7 +7,8 @@ const createFile = (filePath, fileName, template) => {
   const combinedPath = path.resolve(filePath, fileName);
 
   if (fs.existsSync(combinedPath)) {
-    logToOutput(`${chalk.yellow(fileName)} has been rewritten!`);
+    const warnInfo = `${chalk.yellow(fileName)} has been rewritten!`;
+    logToOutput(warnInfo);
   }
 
   fs.writeFileSync(combinedPath, template);
