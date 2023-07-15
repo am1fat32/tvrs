@@ -13,18 +13,16 @@ const mainEntityMap = {
   fc: {
     fullName: 'Functional component',
     ext: '.tsx',
-    hasStyles: true,
     fn: buildFunctionalComponentTemplate,
   },
   cc: {
     fullName: 'Class component',
     ext: '.tsx',
-    hasStyles: true,
     fn: buildClassComponentTemplate,
   },
 };
 
-export function createEntity(componentName, type, flat, skipPackage) {
+export function createEntity(componentName, type) {
   const destinationPath = process.cwd();
   const mainEntity = mainEntityMap[type];
 
@@ -37,34 +35,30 @@ export function createEntity(componentName, type, flat, skipPackage) {
   }
 
   const {
-    fullName, ext: mainExtension, fn: buildMainTemplate, hasStyles,
+    fullName,
+    ext: mainExtension,
+    fn: buildMainTemplate,
   } = mainEntity;
 
-  const filePath = flat ? destinationPath : path.resolve(destinationPath, componentName);
+  const filePath = path.resolve(destinationPath, componentName);
 
-  if (!flat) {
-    if (fs.existsSync(filePath)) {
-      const errorInfo = `${chalk.yellow(componentName)} folder already exists in this path!`;
-      logToOutput(boxen(errorInfo, { borderColor: 'red' }));
+  if (fs.existsSync(filePath)) {
+    const errorInfo = `${chalk.yellow(componentName)} folder already exists in this path!`;
+    logToOutput(boxen(errorInfo, { borderColor: 'red' }));
 
-      return;
-    }
-
-    fs.mkdirSync(path.resolve(destinationPath, componentName));
+    return;
   }
+
+  fs.mkdirSync(path.resolve(destinationPath, componentName));
 
   const mainTemplate = buildMainTemplate(componentName);
   createFile(filePath, `${componentName}${mainExtension}`, mainTemplate);
 
-  if (hasStyles) {
-    const stylesTemplate = buildStylesTemplate();
-    createFile(filePath, `${componentName}.pcss`, stylesTemplate);
-  }
+  const stylesTemplate = buildStylesTemplate();
+  createFile(filePath, `${componentName}.pcss`, stylesTemplate);
 
-  if (!skipPackage) {
-    const template = buildPackageJsonTemplate(componentName, mainExtension);
-    createFile(filePath, 'package.json', template);
-  }
+  const jsonTemplate = buildPackageJsonTemplate(componentName, mainExtension);
+  createFile(filePath, 'package.json', jsonTemplate);
 
   const successInfo = `${fullName} ${chalk.yellow(componentName)} is successfully created!`;
   logToOutput(boxen(successInfo, { borderColor: 'green' }));
