@@ -2,64 +2,52 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { createFile } from './utils/create-file.js';
 import { logToOutput } from './utils/log-to-output.js';
-import { buildPackageJsonTemplate } from './template-builders/build-package-json-template.js';
-import { buildStylesTemplate } from './template-builders/build-styles-template.js';
-import { buildFunctionalComponentTemplate } from './template-builders/build-functional-component-template.js';
-import { buildClassComponentTemplate } from './template-builders/build-class-component-template.js';
+import {
+  FunctionalComponentBuilder,
+} from './template-builders/functional-component-builder/functional-component-builder.js';
+import {
+  ClassComponentBuilder,
+} from './template-builders/class-component-builder/class-component-builder.js';
+import { POSSIBLE_ENTITY_TYPES } from './constants.js';
 
-const mainEntityMap = {
-  fc: {
-    fullName: 'Functional component',
-    ext: '.tsx',
-    fn: buildFunctionalComponentTemplate,
-  },
-  cc: {
-    fullName: 'Class component',
-    ext: '.tsx',
-    fn: buildClassComponentTemplate,
-  },
-};
+export function createEntity(entityName, entityType) {
+  const builder = getBuilderByEntityType(entityName, entityType);
 
-export function createEntity(componentName, type) {
-  const destinationPath = process.cwd();
-  const mainEntity = mainEntityMap[type];
-
-  if (!mainEntity) {
-    const possibleTypes = Object.keys(mainEntityMap).map((it) => chalk.green(it)).join(' | ');
-    const errorInfo = `Possible types (${possibleTypes}) do not include ${chalk.yellow(type)}`;
+  if (!builder) {
+    const possibleTypes = POSSIBLE_ENTITY_TYPES.map((it) => chalk.green(it)).join(' | ');
+    const errorInfo = `Possible types (${possibleTypes}) do not include ${chalk.yellow(entityType)}`;
     logToOutput(boxen(errorInfo, { borderColor: 'red' }));
 
     return;
   }
 
-  const {
-    fullName,
-    ext: mainExtension,
-    fn: buildMainTemplate,
-  } = mainEntity;
-
-  const filePath = path.resolve(destinationPath, componentName);
+  const destinationPath = process.cwd();
+  const filePath = path.resolve(destinationPath, entityName);
 
   if (fs.existsSync(filePath)) {
-    const errorInfo = `${chalk.yellow(componentName)} directory already exists in this path`;
+    const errorInfo = `${chalk.yellow(entityName)} directory already exists in this path`;
     logToOutput(boxen(errorInfo, { borderColor: 'red' }));
 
     return;
   }
 
-  fs.mkdirSync(path.resolve(destinationPath, componentName));
+  fs.mkdirSync(path.resolve(destinationPath, entityName));
 
-  const mainTemplate = buildMainTemplate(componentName);
-  createFile(filePath, `${componentName}${mainExtension}`, mainTemplate);
+  builder.createTemplates(filePath);
 
-  const stylesTemplate = buildStylesTemplate();
-  createFile(filePath, `${componentName}.pcss`, stylesTemplate);
-
-  const jsonTemplate = buildPackageJsonTemplate(componentName, mainExtension);
-  createFile(filePath, 'package.json', jsonTemplate);
-
-  const successInfo = `${fullName} ${chalk.yellow(componentName)} is successfully created`;
+  const successInfo = `${builder.getFullName()} ${chalk.yellow(entityName)} is successfully created`;
   logToOutput(boxen(successInfo, { borderColor: 'green' }));
+}
+
+function getBuilderByEntityType(entityName, entityType) {
+  if (entityType === 'fc') {
+    return new FunctionalComponentBuilder(entityName);
+  }
+
+  if (entityName === 'cc') {
+    return new ClassComponentBuilder(entityName);
+  }
+
+  return null;
 }
