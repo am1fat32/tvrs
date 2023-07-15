@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const { logToOutput } = require('./logToOutput');
+const { logToOutput } = require('./log-to-output');
 
 const createFile = (filePath, fileName, template) => {
   const combinedPath = path.resolve(filePath, fileName);

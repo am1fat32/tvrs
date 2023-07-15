@@ -1,4 +1,4 @@
-const buildPackageJSONTemplate = (componentName, extension) => JSON.stringify(
+const buildPackageJsonTemplate = (componentName, extension) => JSON.stringify(
   {
     private: true,
     main: componentName,
@@ -10,5 +10,5 @@ const buildPackageJSONTemplate = (componentName, extension) => JSON.stringify(
   .concat('\n');
 
 module.exports = {
-  buildPackageJSONTemplate,
+  buildPackageJSONTemplate: buildPackageJsonTemplate,
 };

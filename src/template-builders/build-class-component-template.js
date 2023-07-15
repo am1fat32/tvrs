@@ -1,4 +1,4 @@
-const { kebabToPascal } = require('../utils/kebabToPascal');
+const { kebabToPascal } = require('../utils/kebab-to-pascal');
 
 const buildClassComponentTemplate = (componentName) => {
   const pascalComponentName = kebabToPascal(componentName);
