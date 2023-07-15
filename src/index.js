@@ -2,12 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const boxen = require('boxen');
-const { logToOutput } = require('./utils/logToOutput');
-const { createFile } = require('./utils/createFile');
-const { buildPackageJSONTemplate } = require('./templateBuilders/buildPackageJSONTemplate');
-const { buildStylesTemplate } = require('./templateBuilders/buildStylesTemplate');
-const { buildFunctionalComponentTemplate } = require('./templateBuilders/buildFunctionalComponentTemplate');
-const { buildClassComponentTemplate } = require('./templateBuilders/buildClassComponentTemplate');
+const { logToOutput } = require('./utils/log-to-output');
+const { createFile } = require('./utils/create-file');
+const { buildPackageJSONTemplate } = require('./template-builders/build-package-json-template');
+const { buildStylesTemplate } = require('./template-builders/build-styles-template');
+const { buildFunctionalComponentTemplate } = require('./template-builders/build-functional-component-template');
+const { buildClassComponentTemplate } = require('./template-builders/build-class-component-template');
 
 const mainEntityMap = {
   fc: {
