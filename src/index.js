@@ -28,7 +28,7 @@ export function createEntity(componentName, type) {
 
   if (!mainEntity) {
     const possibleTypes = Object.keys(mainEntityMap).map((it) => chalk.green(it)).join(' | ');
-    const errorInfo = `Possible types (${possibleTypes}) does not include ${chalk.yellow(type)}!`;
+    const errorInfo = `Possible types (${possibleTypes}) do not include ${chalk.yellow(type)}`;
     logToOutput(boxen(errorInfo, { borderColor: 'red' }));
 
     return;
@@ -43,7 +43,7 @@ export function createEntity(componentName, type) {
   const filePath = path.resolve(destinationPath, componentName);
 
   if (fs.existsSync(filePath)) {
-    const errorInfo = `${chalk.yellow(componentName)} folder already exists in this path!`;
+    const errorInfo = `${chalk.yellow(componentName)} directory already exists in this path`;
     logToOutput(boxen(errorInfo, { borderColor: 'red' }));
 
     return;
@@ -60,6 +60,6 @@ export function createEntity(componentName, type) {
   const jsonTemplate = buildPackageJsonTemplate(componentName, mainExtension);
   createFile(filePath, 'package.json', jsonTemplate);
 
-  const successInfo = `${fullName} ${chalk.yellow(componentName)} is successfully created!`;
+  const successInfo = `${fullName} ${chalk.yellow(componentName)} is successfully created`;
   logToOutput(boxen(successInfo, { borderColor: 'green' }));
 }
