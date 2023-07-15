@@ -1,4 +1,4 @@
-import { kebabToPascal } from '../utils/kebab-to-pascal.js';
+import { kebabToPascal } from '../../utils/kebab-to-pascal.js';
 
 export function buildFunctionalComponentTemplate(componentName) {
   const pascalComponentName = kebabToPascal(componentName);
