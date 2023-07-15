@@ -1,13 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const boxen = require('boxen');
-const { logToOutput } = require('./utils/log-to-output');
-const { createFile } = require('./utils/create-file');
-const { buildPackageJSONTemplate } = require('./template-builders/build-package-json-template');
-const { buildStylesTemplate } = require('./template-builders/build-styles-template');
-const { buildFunctionalComponentTemplate } = require('./template-builders/build-functional-component-template');
-const { buildClassComponentTemplate } = require('./template-builders/build-class-component-template');
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import boxen from 'boxen';
+import { createFile } from './utils/create-file.js';
+import { logToOutput } from './utils/log-to-output.js';
+import { buildPackageJsonTemplate } from './template-builders/build-package-json-template.js';
+import { buildStylesTemplate } from './template-builders/build-styles-template.js';
+import { buildFunctionalComponentTemplate } from './template-builders/build-functional-component-template.js';
+import { buildClassComponentTemplate } from './template-builders/build-class-component-template.js';
 
 const mainEntityMap = {
   fc: {
@@ -24,7 +24,7 @@ const mainEntityMap = {
   },
 };
 
-function createEntity(componentName, type, flat, skipPackage) {
+export function createEntity(componentName, type, flat, skipPackage) {
   const destinationPath = process.cwd();
   const mainEntity = mainEntityMap[type];
 
@@ -62,14 +62,10 @@ function createEntity(componentName, type, flat, skipPackage) {
   }
 
   if (!skipPackage) {
-    const template = buildPackageJSONTemplate(componentName, mainExtension);
+    const template = buildPackageJsonTemplate(componentName, mainExtension);
     createFile(filePath, 'package.json', template);
   }
 
   const successInfo = `${fullName} ${chalk.yellow(componentName)} is successfully created!`;
   logToOutput(boxen(successInfo, { borderColor: 'green' }));
 }
-
-module.exports = {
-  createEntity,
-};

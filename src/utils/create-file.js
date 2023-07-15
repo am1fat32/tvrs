@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const { logToOutput } = require('./log-to-output');
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import { logToOutput } from './log-to-output.js';
 
-const createFile = (filePath, fileName, template) => {
+export function createFile(filePath, fileName, template) {
   const combinedPath = path.resolve(filePath, fileName);
 
   if (fs.existsSync(combinedPath)) {
@@ -12,8 +12,4 @@ const createFile = (filePath, fileName, template) => {
   }
 
   fs.writeFileSync(combinedPath, template);
-};
-
-module.exports = {
-  createFile,
-};
+}

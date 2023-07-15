@@ -1,6 +1,6 @@
-const { kebabToPascal } = require('../utils/kebab-to-pascal');
+import { kebabToPascal } from '../utils/kebab-to-pascal.js';
 
-const buildFunctionalComponentTemplate = (componentName) => {
+export function buildFunctionalComponentTemplate(componentName) {
   const pascalComponentName = kebabToPascal(componentName);
   const propsStr = `${pascalComponentName}Props`;
 
@@ -19,8 +19,4 @@ export function ${pascalComponentName}(props: ${propsStr}): JSX.Element {
 \t);
 }
 `.trimStart();
-};
-
-module.exports = {
-  buildFunctionalComponentTemplate,
-};
+}
