@@ -1,5 +1,3 @@
-const buildStylesTemplate = () => '';
-
-module.exports = {
-  buildStylesTemplate,
-};
+export function buildStylesTemplate() {
+  return '';
+}

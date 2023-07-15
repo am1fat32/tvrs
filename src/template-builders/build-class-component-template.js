@@ -1,6 +1,6 @@
-const { kebabToPascal } = require('../utils/kebab-to-pascal');
+import { kebabToPascal } from '../utils/kebab-to-pascal.js';
 
-const buildClassComponentTemplate = (componentName) => {
+export function buildClassComponentTemplate(componentName) {
   const pascalComponentName = kebabToPascal(componentName);
   const propsStr = `${pascalComponentName}Props`;
   const stateStr = `${pascalComponentName}State`;
@@ -30,8 +30,4 @@ export class ${pascalComponentName} extends React.PureComponent<${propsStr}, ${s
 \t}
 }
 `.trimStart();
-};
-
-module.exports = {
-  buildClassComponentTemplate,
-};
+}

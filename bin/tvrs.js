@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
-const { program } = require('commander');
-const { version } = require('../package.json');
-const { createEntity } = require('../src/index');
+import fs from 'fs';
+import { program } from 'commander';
+import { createEntity } from '../src/index.js';
+
+const jsonData = JSON.parse(fs.readFileSync('package.json'));
 
 program
-  .version(version, '-v, --version')
+  .version(jsonData.version, '-v, --version')
   .description('Creates an entity in cwd')
   .argument('<name>', 'entity name in kebab case')
   .argument('[type]', 'entity type: fc | cc', 'fc')
