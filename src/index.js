@@ -1,53 +1,32 @@
-import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
-import boxen from 'boxen';
-import { logToOutput } from './utils/log-to-output.js';
-import {
-  FunctionalComponentBuilder,
-} from './template-builders/functional-component-builder/functional-component-builder.js';
-import {
-  ClassComponentBuilder,
-} from './template-builders/class-component-builder/class-component-builder.js';
-import { POSSIBLE_ENTITY_TYPES } from './constants.js';
+import { TemplateBuilderFactory } from './template-builder-factory.js';
+import { TemplatesFileManager } from './templates-file-manager.js';
+import { TypeEntity } from './type-entity.js';
+import { Logger } from './logger.js';
 
 export function createEntity(entityName, entityType) {
-  const builder = getBuilderByEntityType(entityName, entityType);
+  const templatesBuilder = TemplateBuilderFactory.create(entityName, entityType);
 
-  if (!builder) {
-    const possibleTypes = POSSIBLE_ENTITY_TYPES.map((it) => chalk.green(it)).join(' | ');
-    const errorInfo = `Possible types (${possibleTypes}) do not include ${chalk.yellow(entityType)}`;
-    logToOutput(boxen(errorInfo, { borderColor: 'red' }));
+  if (!templatesBuilder) {
+    const possibleEntityTypes = Object.values(TypeEntity).map((it) => chalk.green(it)).join(' | ');
+    const errorInfo = `Possible types (${possibleEntityTypes}) do not include ${chalk.yellow(entityType)}`;
 
+    Logger.logError(errorInfo);
     return;
   }
 
-  const destinationPath = process.cwd();
-  const filePath = path.resolve(destinationPath, entityName);
+  const workingDirectory = process.cwd();
+  const templatesTargetPath = path.resolve(workingDirectory, entityName);
+  const templates = templatesBuilder.createTemplates();
 
-  if (fs.existsSync(filePath)) {
-    const errorInfo = `${chalk.yellow(entityName)} directory already exists in this path`;
-    logToOutput(boxen(errorInfo, { borderColor: 'red' }));
-
-    return;
-  }
-
-  fs.mkdirSync(path.resolve(destinationPath, entityName));
-
-  builder.createTemplates(filePath);
-
-  const successInfo = `${builder.getFullName()} ${chalk.yellow(entityName)} is successfully created`;
-  logToOutput(boxen(successInfo, { borderColor: 'green' }));
-}
-
-function getBuilderByEntityType(entityName, entityType) {
-  if (entityType === 'fc') {
-    return new FunctionalComponentBuilder(entityName);
-  }
-
-  if (entityName === 'cc') {
-    return new ClassComponentBuilder(entityName);
-  }
-
-  return null;
+  TemplatesFileManager.create(templatesTargetPath, templates)
+    .then(() => {
+      const successInfo = `${templatesBuilder.getFullName()} ${chalk.yellow(entityName)} is successfully created`;
+      Logger.logSuccess(successInfo);
+    })
+    .catch(() => {
+      const errorInfo = 'Something went wrong during files creation';
+      Logger.logError(errorInfo);
+    });
 }
