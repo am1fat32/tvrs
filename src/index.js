@@ -1,11 +1,10 @@
-import path from 'path';
 import chalk from 'chalk';
 import { TemplateBuilderFactory } from './template-builder-factory.js';
 import { TemplatesFileManager } from './templates-file-manager.js';
 import { TypeEntity } from './type-entity.js';
 import { Logger } from './logger.js';
 
-export function createEntity(entityName, entityType) {
+export function createEntity(entityName, entityType, entityTargetPath) {
   const templatesBuilder = TemplateBuilderFactory.create(entityName, entityType);
 
   if (!templatesBuilder) {
@@ -16,11 +15,9 @@ export function createEntity(entityName, entityType) {
     return;
   }
 
-  const workingDirectory = process.cwd();
-  const templatesTargetPath = path.resolve(workingDirectory, entityName);
   const templates = templatesBuilder.createTemplates();
 
-  TemplatesFileManager.create(templatesTargetPath, templates)
+  TemplatesFileManager.create(entityTargetPath, templates)
     .then(() => {
       const successInfo = `${templatesBuilder.getFullName()} ${chalk.yellow(entityName)} is successfully created`;
       Logger.logSuccess(successInfo);
