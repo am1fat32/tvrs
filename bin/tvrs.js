@@ -5,7 +5,7 @@ import { program } from 'commander';
 import { createEntity } from '../src/index.js';
 
 program
-  .version('3.0.0', '-v, --version')
+  .version('3.1.0', '-v, --version')
   .description('Creates an entity in cwd')
   .argument('<name>', 'entity name in kebab case')
   .argument('[type]', 'entity type: fc | cc', 'fc')
