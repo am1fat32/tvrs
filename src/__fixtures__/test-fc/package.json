@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "main": "test-fc",
+  "typings": "test-fc.tsx"
+}
