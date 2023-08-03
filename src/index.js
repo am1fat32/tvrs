@@ -9,7 +9,7 @@ export function createEntity(entityName, entityType, entityTargetPath) {
 
   if (!templatesBuilder) {
     const possibleEntityTypes = Object.values(TypeEntity).map((it) => chalk.green(it)).join(' | ');
-    const errorInfo = `Possible types (${possibleEntityTypes}) do not include ${chalk.yellow(entityType)}`;
+    const errorInfo = `Possible types (${possibleEntityTypes}) do not include ${chalk.yellow(entityType)}!`;
 
     Logger.logError(errorInfo);
     return;
@@ -19,11 +19,10 @@ export function createEntity(entityName, entityType, entityTargetPath) {
 
   TemplatesFileManager.create(entityTargetPath, templates)
     .then(() => {
-      const successInfo = `${templatesBuilder.getFullName()} ${chalk.yellow(entityName)} is successfully created`;
+      const successInfo = `${templatesBuilder.getFullName()} ${chalk.yellow(entityName)} is successfully created!`;
       Logger.logSuccess(successInfo);
     })
-    .catch(() => {
-      const errorInfo = 'Something went wrong during files creation';
-      Logger.logError(errorInfo);
+    .catch((err) => {
+      Logger.logError(`${err.message}`);
     });
 }
