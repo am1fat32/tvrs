@@ -6,7 +6,7 @@ export class TemplatesFileManager {
     try {
       TemplatesFileManager._createDirectory(templatesTargetPath);
     } catch {
-      return Promise.reject(new Error('Can not create the directory'));
+      return Promise.reject(new Error('Can not create the directory!'));
     }
 
     try {
@@ -16,7 +16,7 @@ export class TemplatesFileManager {
 
       return Promise.resolve();
     } catch {
-      return Promise.reject(new Error('Something went wrong during templates creation'));
+      return Promise.reject(new Error('Something went wrong during templates creation!'));
     }
   }
 
