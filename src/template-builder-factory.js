@@ -4,11 +4,11 @@ import { ClassComponentBuilder } from './templates-builders/class-component-buil
 
 export class TemplateBuilderFactory {
   static create(entityName, entityType) {
-    if (entityType === TypeEntity.FunctionalComponent) {
+    if (entityType === TypeEntity.FunctionalComponent.value) {
       return new FunctionalComponentBuilder(entityName);
     }
 
-    if (entityType === TypeEntity.ClassComponent) {
+    if (entityType === TypeEntity.ClassComponent.value) {
       return new ClassComponentBuilder(entityName);
     }
 

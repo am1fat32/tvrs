@@ -1,15 +1,20 @@
 #!/usr/bin/env node
 
 import path from 'path';
-import { program } from 'commander';
+import { Argument, program } from 'commander';
 import { createEntity } from '../src/index.js';
-import { getDefaultTypeEntity, getPossibleTypeEntities } from '../src/type-entity.js';
+import { getPossibleEntities, getPossibleEntitiesValues, TypeEntity } from '../src/type-entity.js';
 
 program
-  .version('3.1.0', '-v, --version')
-  .description('Creates an entity in cwd')
-  .argument('<name>', 'entity name in kebab case')
-  .argument('[type]', `entity type: ${getPossibleTypeEntities().join(' | ')}`, getDefaultTypeEntity())
+  .version('3.1.1', '-v, --version')
+  .usage('<entity-name> [type]')
+  .description(getDescription())
+  .argument('<entity-name>', 'any entity name in kebab case')
+  .addArgument(
+    new Argument('[type]', 'entity type')
+      .default(TypeEntity.FunctionalComponent.value)
+      .choices(getPossibleEntitiesValues()),
+  )
   .action((entityName, type) => {
     const workingDirectory = process.cwd();
     const targetPath = path.resolve(workingDirectory, entityName);
@@ -17,3 +22,11 @@ program
     createEntity(entityName, type, targetPath);
   })
   .parse();
+
+function getDescription() {
+  return `Creates an entity in cwd.\nPossible entities: ${getPossibleEntities().map(getDescriptionRow).join('')}`;
+}
+
+function getDescriptionRow(entity) {
+  return `\n  ${entity.value} (${entity.description})`;
+}

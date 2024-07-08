@@ -1,14 +1,14 @@
 import chalk from 'chalk';
 import { TemplateBuilderFactory } from './template-builder-factory.js';
 import { TemplatesFileManager } from './templates-file-manager.js';
-import { getPossibleTypeEntities } from './type-entity.js';
 import { Logger } from './logger.js';
+import { getPossibleEntitiesValues } from './type-entity.js';
 
 export function createEntity(entityName, entityType, entityTargetPath) {
   const templatesBuilder = TemplateBuilderFactory.create(entityName, entityType);
 
   if (!templatesBuilder) {
-    const possibleEntityTypes = getPossibleTypeEntities().map((it) => chalk.green(it)).join(' | ');
+    const possibleEntityTypes = getPossibleEntitiesValues().map((it) => chalk.green(it)).join(' | ');
     const errorInfo = `Possible types (${possibleEntityTypes}) do not include ${chalk.yellow(entityType)} type!`;
 
     Logger.logError(errorInfo);

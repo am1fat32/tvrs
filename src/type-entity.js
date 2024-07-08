@@ -1,12 +1,18 @@
 export const TypeEntity = {
-  FunctionalComponent: 'fc',
-  ClassComponent: 'cc',
+  FunctionalComponent: {
+    value: 'fc',
+    description: 'functional component',
+  },
+  ClassComponent: {
+    value: 'cc',
+    description: 'class component',
+  },
 };
 
-export function getPossibleTypeEntities() {
+export function getPossibleEntities() {
   return Object.values(TypeEntity);
 }
 
-export function getDefaultTypeEntity() {
-  return TypeEntity.FunctionalComponent;
+export function getPossibleEntitiesValues() {
+  return Object.values(TypeEntity).map((entity) => entity.value);
 }
