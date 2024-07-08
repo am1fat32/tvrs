@@ -1,7 +1,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { createEntity } from "../../index.js";
+import { createEntity } from "../../index";
 
 jest.createMockFromModule("chalk");
 jest.createMockFromModule("boxen");

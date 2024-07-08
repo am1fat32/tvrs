@@ -2,12 +2,12 @@
 
 import path from "path";
 import { Argument, program } from "commander";
-import { createEntity } from "../src/index.js";
 import {
-  getPossibleEntities,
+  createEntity,
   getPossibleEntitiesValues,
-  TypeEntity,
-} from "../src/type-entity.js";
+  getPossibleEntities,
+  entities,
+} from "../lib/index.js";
 
 program
   .version("3.1.1", "-v, --version")
@@ -16,7 +16,7 @@ program
   .argument("<entity-name>", "any entity name in kebab case")
   .addArgument(
     new Argument("[type]", "entity type")
-      .default(TypeEntity.FunctionalComponent.value)
+      .default(entities.functionalComponent.value)
       .choices(getPossibleEntitiesValues()),
   )
   .action((entityName, type) => {

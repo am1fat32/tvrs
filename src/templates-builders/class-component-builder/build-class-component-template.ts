@@ -1,6 +1,6 @@
-import { convertKebabToPascal } from '../../convert-kebab-to-pascal.js';
+import { convertKebabToPascal } from '../../convert-kebab-to-pascal';
 
-export function buildClassComponentTemplate(componentName) {
+export function buildClassComponentTemplate(componentName: string): string {
   const pascalComponentName = convertKebabToPascal(componentName);
   const propsStr = `${pascalComponentName}Props`;
   const stateStr = `${pascalComponentName}State`;
