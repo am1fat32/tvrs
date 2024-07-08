@@ -1,11 +1,11 @@
 export const TypeEntity = {
   FunctionalComponent: {
-    value: 'fc',
-    description: 'functional component',
+    value: "fc",
+    description: "functional component",
   },
   ClassComponent: {
-    value: 'cc',
-    description: 'class component',
+    value: "cc",
+    description: "class component",
   },
 };
 
