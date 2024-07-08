@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
+import { Template } from "./templates-builders/types";
 
 export class TemplatesFileManager {
-  static create(templatesTargetPath, templates) {
+  static create(templatesTargetPath: string, templates: Template[]) {
     try {
       TemplatesFileManager._createDirectory(templatesTargetPath);
     } catch {
@@ -26,11 +27,15 @@ export class TemplatesFileManager {
     }
   }
 
-  static _createDirectory(targetPath) {
+  static _createDirectory(targetPath: string): void {
     fs.mkdirSync(targetPath);
   }
 
-  static _createFile(filePath, fileName, template) {
+  static _createFile(
+    filePath: string,
+    fileName: string,
+    template: string,
+  ): void {
     const combinedPath = path.resolve(filePath, fileName);
 
     fs.writeFileSync(combinedPath, template);

@@ -1,24 +1,19 @@
 {
   "name": "tvrs",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "CLI tool for TV dev",
   "type": "module",
-  "main": "./src/index.js",
-  "bin": {
-    "tvrs": "./bin/tvrs.js"
-  },
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsup src/index.ts --format esm --outDir lib",
+    "prepublishOnly": "npm run build"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
-  },
+  "files": [
+    "lib",
+    "bin"
+  ],
   "keywords": [
     "tvrs"
   ],
@@ -30,10 +25,10 @@
     "commander": "^12.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/preset-env": "^7.22.9",
-    "babel-jest": "^29.6.1",
-    "jest": "^27.0.6",
-    "prettier": "3.3.2"
+    "@types/jest": "^29.5.12",
+    "prettier": "3.3.2",
+    "ts-jest": "^29.2.0",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.1.0"
   }
 }

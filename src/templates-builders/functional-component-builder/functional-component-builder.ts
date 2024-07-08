@@ -1,17 +1,21 @@
-import { buildFunctionalComponentTemplate } from "./build-functional-component-template.js";
-import { buildStylesTemplate } from "../build-styles-template.js";
-import { buildPackageJsonTemplate } from "../build-package-json-template.js";
-import { AbstractComponentBuilder } from "../abstract-component-builder.js";
+import { buildFunctionalComponentTemplate } from "./build-functional-component-template";
+import { buildStylesTemplate } from "../build-styles-template";
+import { buildPackageJsonTemplate } from "../build-package-json-template";
+import { ComponentBuilder } from "../component-builder";
+import { Template } from "../types";
 
-export class FunctionalComponentBuilder extends AbstractComponentBuilder {
-  constructor(entityName) {
+export class FunctionalComponentBuilder extends ComponentBuilder {
+  private readonly _entityName: string;
+  private readonly _mainExtension: string;
+
+  public constructor(entityName: string) {
     super("Functional component");
 
     this._entityName = entityName;
     this._mainExtension = ".tsx";
   }
 
-  createTemplates() {
+  public createTemplates(): Template[] {
     return [
       this._createMain(),
       this._createStyle(),
@@ -19,7 +23,7 @@ export class FunctionalComponentBuilder extends AbstractComponentBuilder {
     ];
   }
 
-  _createMain() {
+  private _createMain(): Template {
     return {
       fileName: this._entityName,
       fileExtension: this._mainExtension,
@@ -27,7 +31,7 @@ export class FunctionalComponentBuilder extends AbstractComponentBuilder {
     };
   }
 
-  _createStyle() {
+  private _createStyle(): Template {
     return {
       fileName: this._entityName,
       fileExtension: ".pcss",
@@ -35,7 +39,7 @@ export class FunctionalComponentBuilder extends AbstractComponentBuilder {
     };
   }
 
-  _createPackageJsonTemplate() {
+  private _createPackageJsonTemplate(): Template {
     return {
       fileName: "package",
       fileExtension: ".json",
