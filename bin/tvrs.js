@@ -10,7 +10,7 @@ import {
 } from "../lib/index.js";
 
 program
-  .version("3.1.1", "-v, --version")
+  .version("3.1.2", "-v, --version")
   .usage("<entity-name> [type]")
   .description(getDescription())
   .argument("<entity-name>", "any entity name in kebab case")
