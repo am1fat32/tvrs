@@ -1,8 +1,9 @@
 {
   "name": "tvrs",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "CLI tool for TV dev",
   "type": "module",
+  "bin": "bin/tvrs.js",
   "scripts": {
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
