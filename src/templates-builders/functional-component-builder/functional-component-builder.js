@@ -1,14 +1,14 @@
-import { buildFunctionalComponentTemplate } from './build-functional-component-template.js';
-import { buildStylesTemplate } from '../build-styles-template.js';
-import { buildPackageJsonTemplate } from '../build-package-json-template.js';
-import { AbstractComponentBuilder } from '../abstract-component-builder.js';
+import { buildFunctionalComponentTemplate } from "./build-functional-component-template.js";
+import { buildStylesTemplate } from "../build-styles-template.js";
+import { buildPackageJsonTemplate } from "../build-package-json-template.js";
+import { AbstractComponentBuilder } from "../abstract-component-builder.js";
 
 export class FunctionalComponentBuilder extends AbstractComponentBuilder {
   constructor(entityName) {
-    super('Functional component');
+    super("Functional component");
 
     this._entityName = entityName;
-    this._mainExtension = '.tsx';
+    this._mainExtension = ".tsx";
   }
 
   createTemplates() {
@@ -30,15 +30,15 @@ export class FunctionalComponentBuilder extends AbstractComponentBuilder {
   _createStyle() {
     return {
       fileName: this._entityName,
-      fileExtension: '.pcss',
+      fileExtension: ".pcss",
       template: buildStylesTemplate(),
     };
   }
 
   _createPackageJsonTemplate() {
     return {
-      fileName: 'package',
-      fileExtension: '.json',
+      fileName: "package",
+      fileExtension: ".json",
       template: buildPackageJsonTemplate(this._entityName, this._mainExtension),
     };
   }
