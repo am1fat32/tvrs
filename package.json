@@ -1,6 +1,6 @@
 {
   "name": "tvrs",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "CLI tool for TV dev",
   "type": "module",
   "bin": "bin/tvrs.js",
@@ -11,8 +11,13 @@
     "biome:check": "npx @biomejs/biome check .",
     "biome:write": "npm run biome:check -- --write ."
   },
-  "files": ["lib", "bin"],
-  "keywords": ["tvrs"],
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "keywords": [
+    "tvrs"
+  ],
   "author": "Igor Kucherenko",
   "license": "MIT",
   "dependencies": {
