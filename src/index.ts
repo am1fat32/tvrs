@@ -1,10 +1,10 @@
-import chalk from "chalk";
-import { TemplateBuilderFactory } from "./template-builder-factory";
-import { TemplatesFileManager } from "./templates-file-manager";
-import { Logger } from "./logger";
-import { getPossibleEntitiesValues, isAvailableEntityValue } from "./entities";
+import chalk from 'chalk';
+import { getPossibleEntitiesValues, isAvailableEntityValue } from './entities';
+import { Logger } from './logger';
+import { TemplateBuilderFactory } from './template-builder-factory';
+import { TemplatesFileManager } from './templates-file-manager';
 
-export * from "./entities";
+export * from './entities';
 
 export function createEntity(
   entityName: string,
@@ -14,7 +14,7 @@ export function createEntity(
   if (!isAvailableEntityValue(entityType)) {
     const possibleEntityTypes = getPossibleEntitiesValues()
       .map((it) => chalk.green(it))
-      .join(" | ");
+      .join(' | ');
 
     const errorInfo = `Possible types (${possibleEntityTypes}) do not include ${chalk.yellow(entityType)} type!`;
 

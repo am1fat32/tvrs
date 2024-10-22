@@ -5,19 +5,14 @@
   "type": "module",
   "bin": "bin/tvrs.js",
   "scripts": {
-    "prettier:check": "prettier --check .",
-    "prettier:write": "prettier --write .",
     "test": "jest",
     "build": "tsup src/index.ts --format esm --outDir lib",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "biome:check": "npx @biomejs/biome check .",
+    "biome:write": "npm run biome:check -- --write ."
   },
-  "files": [
-    "lib",
-    "bin"
-  ],
-  "keywords": [
-    "tvrs"
-  ],
+  "files": ["lib", "bin"],
+  "keywords": ["tvrs"],
   "author": "Igor Kucherenko",
   "license": "MIT",
   "dependencies": {
@@ -26,8 +21,8 @@
     "commander": "^12.1.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@types/jest": "^29.5.12",
-    "prettier": "3.3.2",
     "ts-jest": "^29.2.0",
     "ts-node": "^10.9.2",
     "tsup": "^8.1.0"

@@ -1,13 +1,13 @@
-import fs from "fs";
-import path from "path";
-import { Template } from "./templates-builders/types";
+import fs from 'node:fs';
+import path from 'node:path';
+import type { Template } from './templates-builders/types';
 
 export class TemplatesFileManager {
   static create(templatesTargetPath: string, templates: Template[]) {
     try {
       TemplatesFileManager._createDirectory(templatesTargetPath);
     } catch {
-      return Promise.reject(new Error("Can not create the directory!"));
+      return Promise.reject(new Error('Can not create the directory!'));
     }
 
     try {
@@ -22,7 +22,7 @@ export class TemplatesFileManager {
       return Promise.resolve();
     } catch {
       return Promise.reject(
-        new Error("Something went wrong during templates creation!"),
+        new Error('Something went wrong during templates creation!'),
       );
     }
   }

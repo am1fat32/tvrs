@@ -1,4 +1,4 @@
-import { Template } from "./types";
+import type { Template } from './types';
 
 export abstract class ComponentBuilder {
   private readonly _fullName: string;

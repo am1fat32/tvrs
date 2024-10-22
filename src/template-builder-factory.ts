@@ -1,6 +1,6 @@
-import { AvailableEntityValue, entities } from "./entities";
-import { FunctionalComponentBuilder } from "./templates-builders/functional-component-builder/functional-component-builder";
-import { ClassComponentBuilder } from "./templates-builders/class-component-builder/class-component-builder";
+import { type AvailableEntityValue, entities } from './entities';
+import { ClassComponentBuilder } from './templates-builders/class-component-builder/class-component-builder';
+import { FunctionalComponentBuilder } from './templates-builders/functional-component-builder/functional-component-builder';
 
 export class TemplateBuilderFactory {
   static create(

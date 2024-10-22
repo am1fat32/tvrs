@@ -5,17 +5,17 @@ interface Entity {
 
 export const entities = {
   functionalComponent: {
-    value: "fc",
-    description: "functional component",
+    value: 'fc',
+    description: 'functional component',
   },
   classComponent: {
-    value: "cc",
-    description: "class component",
+    value: 'cc',
+    description: 'class component',
   },
 } as const satisfies Record<string, Entity>;
 
 export type AvailableEntity = (typeof entities)[keyof typeof entities];
-export type AvailableEntityValue = AvailableEntity["value"];
+export type AvailableEntityValue = AvailableEntity['value'];
 
 export function getPossibleEntities(): AvailableEntity[] {
   return Object.values(entities);

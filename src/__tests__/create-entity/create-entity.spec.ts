@@ -1,15 +1,15 @@
-import fs from "fs";
-import os from "os";
-import path from "path";
-import { createEntity } from "../../index";
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { createEntity } from '../../index';
 
-jest.createMockFromModule("chalk");
-jest.createMockFromModule("boxen");
+jest.createMockFromModule('chalk');
+jest.createMockFromModule('boxen');
 
-const FUNCTIONAL_COMPONENT_NAME = "test-fc";
-const CLASS_COMPONENT_NAME = "test-cc";
+const FUNCTIONAL_COMPONENT_NAME = 'test-fc';
+const CLASS_COMPONENT_NAME = 'test-cc';
 
-describe("createEntity", () => {
+describe('createEntity', () => {
   it(`should create "${FUNCTIONAL_COMPONENT_NAME}" functional component`, () => {
     const tempPath = os.tmpdir();
     const uniqueTempFolder = path.join(tempPath, `temp-${Date.now()}`);
@@ -18,7 +18,7 @@ describe("createEntity", () => {
 
     const targetPath = path.join(uniqueTempFolder, FUNCTIONAL_COMPONENT_NAME);
 
-    createEntity(FUNCTIONAL_COMPONENT_NAME, "fc", targetPath);
+    createEntity(FUNCTIONAL_COMPONENT_NAME, 'fc', targetPath);
 
     const createdEntityPath = path.join(
       uniqueTempFolder,
@@ -26,9 +26,9 @@ describe("createEntity", () => {
     );
     const fixturesPath = path.join(
       __dirname,
-      "..",
-      "..",
-      "__fixtures__",
+      '..',
+      '..',
+      '__fixtures__',
       FUNCTIONAL_COMPONENT_NAME,
     );
 
@@ -40,11 +40,11 @@ describe("createEntity", () => {
     createdFiles.forEach((file) => {
       const createdFileContent = fs.readFileSync(
         path.join(createdEntityPath, file),
-        "utf8",
+        'utf8',
       );
       const fixtureFileContent = fs.readFileSync(
         path.join(fixturesPath, file),
-        "utf8",
+        'utf8',
       );
 
       expect(createdFileContent).toEqual(fixtureFileContent);
@@ -59,14 +59,14 @@ describe("createEntity", () => {
 
     const targetPath = path.join(uniqueTempFolder, CLASS_COMPONENT_NAME);
 
-    createEntity(CLASS_COMPONENT_NAME, "cc", targetPath);
+    createEntity(CLASS_COMPONENT_NAME, 'cc', targetPath);
 
     const createdEntityPath = path.join(uniqueTempFolder, CLASS_COMPONENT_NAME);
     const fixturesPath = path.join(
       __dirname,
-      "..",
-      "..",
-      "__fixtures__",
+      '..',
+      '..',
+      '__fixtures__',
       CLASS_COMPONENT_NAME,
     );
 
@@ -78,11 +78,11 @@ describe("createEntity", () => {
     createdFiles.forEach((file) => {
       const createdFileContent = fs.readFileSync(
         path.join(createdEntityPath, file),
-        "utf8",
+        'utf8',
       );
       const fixtureFileContent = fs.readFileSync(
         path.join(fixturesPath, file),
-        "utf8",
+        'utf8',
       );
 
       expect(createdFileContent).toEqual(fixtureFileContent);

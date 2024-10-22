@@ -1,4 +1,7 @@
-export function buildPackageJsonTemplate(componentName: string, extension: string): string {
+export function buildPackageJsonTemplate(
+  componentName: string,
+  extension: string,
+): string {
   return JSON.stringify(
     {
       private: true,
@@ -7,6 +10,5 @@ export function buildPackageJsonTemplate(componentName: string, extension: strin
     },
     null,
     2,
-  )
-    .concat('\n');
+  ).concat('\n');
 }

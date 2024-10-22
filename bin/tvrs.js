@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
-import path from "path";
-import { Argument, program } from "commander";
+import path from 'node:path';
+import { Argument, program } from 'commander';
 import {
   createEntity,
-  getPossibleEntitiesValues,
-  getPossibleEntities,
   entities,
-} from "../lib/index.js";
+  getPossibleEntities,
+  getPossibleEntitiesValues,
+} from '../lib/index.js';
 
 program
-  .version("3.1.2", "-v, --version")
-  .usage("<entity-name> [type]")
+  .version('3.1.2', '-v, --version')
+  .usage('<entity-name> [type]')
   .description(getDescription())
-  .argument("<entity-name>", "any entity name in kebab case")
+  .argument('<entity-name>', 'any entity name in kebab case')
   .addArgument(
-    new Argument("[type]", "entity type")
+    new Argument('[type]', 'entity type')
       .default(entities.functionalComponent.value)
       .choices(getPossibleEntitiesValues()),
   )
@@ -28,7 +28,7 @@ program
   .parse();
 
 function getDescription() {
-  return `Creates an entity in cwd.\nPossible entities: ${getPossibleEntities().map(getDescriptionRow).join("")}`;
+  return `Creates an entity in cwd.\nPossible entities: ${getPossibleEntities().map(getDescriptionRow).join('')}`;
 }
 
 function getDescriptionRow(entity) {
