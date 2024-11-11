@@ -11,13 +11,8 @@
     "biome:check": "npx @biomejs/biome check .",
     "biome:write": "npm run biome:check -- --write ."
   },
-  "files": [
-    "lib",
-    "bin"
-  ],
-  "keywords": [
-    "tvrs"
-  ],
+  "files": ["lib", "bin"],
+  "keywords": ["tvrs"],
   "author": "Igor Kucherenko",
   "license": "MIT",
   "dependencies": {
